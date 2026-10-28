@@ -2,22 +2,18 @@
 #include <iomanip>
 using namespace std;
 
-// Function to calculate monthly transportation cost
 double calculateMonthlyTransport(double dailyTransportCost, int travelDays) {
     return dailyTransportCost * travelDays;
 }
 
-// Function to calculate monthly small purchases
 double calculateMonthlySmallPurchases(double dailySmallPurchases) {
     return dailySmallPurchases * 30;
 }
 
-// Function to calculate monthly groceries
 double calculateMonthlyGroceries(double weeklyGroceries) {
     return weeklyGroceries * 4;
 }
 
-// Function to calculate total monthly expenses
 double calculateTotalExpenses(double fixedExpenses, double monthlyTransport,
                               double monthlySmallPurchases, double monthlyGroceries,
                               double monthlyEducationCost) {
@@ -28,15 +24,11 @@ double calculateTotalExpenses(double fixedExpenses, double monthlyTransport,
 int main() {
     int choice = 0, updateChoice;
     int numberOfDependents = 0, travelDays = 0;
-
     double monthlyIncome = 0, fixedExpenses = 0;
     double dailyTransportCost = 0, dailySmallPurchases = 0;
     double weeklyGroceries = 0, yearlyEducationCost = 0;
-
     bool hasBudget = false;
-
     cout << fixed << setprecision(2);
-
     do {
         cout << endl;
         cout << "DAILY HOUSEHOLD CASH-FLOW CALCULATOR" << endl;
@@ -47,52 +39,38 @@ int main() {
         cout << "5. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
-
         if (cin.fail()) {
             cin.clear();
             cin.ignore(10000, '\n');
             cout << "Invalid menu choice." << endl;
             continue;
         }
-
         switch (choice) {
-
-        // CREATE
         case 1:
             if (hasBudget) {
                 cout << "A budget already exists. Use Update to change it." << endl;
                 break;
             }
-
             cout << "Enter number of dependents: ";
             cin >> numberOfDependents;
-
             cout << "Enter monthly income: ";
             cin >> monthlyIncome;
-
             cout << "Enter fixed expenses: ";
             cin >> fixedExpenses;
-
             cout << "Enter daily transportation cost: ";
             cin >> dailyTransportCost;
-
             cout << "Enter number of travel days per month: ";
             cin >> travelDays;
-
             cout << "Enter daily small purchases: ";
             cin >> dailySmallPurchases;
-
             cout << "Enter weekly groceries cost: ";
             cin >> weeklyGroceries;
-
             cout << "Enter yearly education cost: ";
             cin >> yearlyEducationCost;
-
             if (cin.fail() || numberOfDependents < 0 || monthlyIncome <= 0 ||
                 fixedExpenses < 0 || dailyTransportCost < 0 ||
                 travelDays < 0 || travelDays > 31 || dailySmallPurchases < 0 ||
                 weeklyGroceries < 0 || yearlyEducationCost < 0) {
-
                 cin.clear();
                 cin.ignore(10000, '\n');
                 cout << "Invalid input. Budget was not created." << endl;
@@ -102,25 +80,18 @@ int main() {
                 cout << "Budget created successfully!" << endl;
             }
             break;
-
-        // READ
         case 2: {
             if (!hasBudget) {
                 cout << "No budget found. Create one first." << endl;
                 break;
             }
-
             double monthlyTransport =
                 calculateMonthlyTransport(dailyTransportCost, travelDays);
-
             double monthlySmallPurchases =
                 calculateMonthlySmallPurchases(dailySmallPurchases);
-
             double monthlyGroceries =
                 calculateMonthlyGroceries(weeklyGroceries);
-
             double monthlyEducationCost = yearlyEducationCost / 12.0;
-
             double totalExpenses = calculateTotalExpenses(
                 fixedExpenses,
                 monthlyTransport,
@@ -128,7 +99,6 @@ int main() {
                 monthlyGroceries,
                 monthlyEducationCost
             );
-
             cout << endl;
             cout << "SAVED BUDGET" << endl;
             cout << "Number of Dependents: " << numberOfDependents << endl;
@@ -141,17 +111,13 @@ int main() {
             cout << "Yearly Education Cost: " << yearlyEducationCost << endl;
             cout << "Total Monthly Expenses: " << totalExpenses << endl;
             cout << "Remaining Balance: " << monthlyIncome - totalExpenses << endl;
-
             break;
         }
-
-        // UPDATE
         case 3: {
             if (!hasBudget) {
                 cout << "No budget found. Create one first." << endl;
                 break;
             }
-
             cout << endl;
             cout << "What do you want to update?" << endl;
             cout << "1. Number of Dependents" << endl;
@@ -164,132 +130,100 @@ int main() {
             cout << "8. Yearly Education Cost" << endl;
             cout << "Enter your choice: ";
             cin >> updateChoice;
-
             if (cin.fail()) {
                 cin.clear();
                 cin.ignore(10000, '\n');
                 cout << "Invalid update choice." << endl;
                 break;
             }
-
             if (updateChoice == 1 || updateChoice == 5) {
                 int newCount;
-
                 cout << "Enter the new number: ";
                 cin >> newCount;
-
                 if (cin.fail() || newCount < 0 ||
                     (updateChoice == 5 && newCount > 31)) {
-
                     cin.clear();
                     cin.ignore(10000, '\n');
                     cout << "Invalid number. Nothing was changed." << endl;
                     break;
                 }
-
                 if (updateChoice == 1) {
                     numberOfDependents = newCount;
                 }
                 else {
                     travelDays = newCount;
                 }
-
                 cout << "Budget updated successfully!" << endl;
             }
             else if (updateChoice >= 2 && updateChoice <= 8) {
                 double newAmount;
-
                 cout << "Enter the new amount: ";
                 cin >> newAmount;
-
                 if (cin.fail() || newAmount < 0 ||
                     (updateChoice == 2 && newAmount == 0)) {
-
                     cin.clear();
                     cin.ignore(10000, '\n');
                     cout << "Invalid amount. Nothing was changed." << endl;
                     break;
                 }
-
                 switch (updateChoice) {
                     case 2:
                         monthlyIncome = newAmount;
                         break;
-
                     case 3:
                         fixedExpenses = newAmount;
                         break;
-
                     case 4:
                         dailyTransportCost = newAmount;
                         break;
-
                     case 6:
                         dailySmallPurchases = newAmount;
                         break;
-
                     case 7:
                         weeklyGroceries = newAmount;
                         break;
-
                     case 8:
                         yearlyEducationCost = newAmount;
                         break;
                 }
-
                 cout << "Budget updated successfully!" << endl;
             }
             else {
                 cout << "Invalid update choice." << endl;
             }
-
             break;
         }
-
-        // DELETE
         case 4: {
             if (!hasBudget) {
                 cout << "No budget found to delete." << endl;
                 break;
             }
-
             char confirm;
-
             cout << "Delete the current budget? (y/n): ";
             cin >> confirm;
-
             if (confirm == 'y' || confirm == 'Y') {
                 hasBudget = false;
-
                 numberOfDependents = 0;
                 travelDays = 0;
-
                 monthlyIncome = 0;
                 fixedExpenses = 0;
                 dailyTransportCost = 0;
                 dailySmallPurchases = 0;
                 weeklyGroceries = 0;
                 yearlyEducationCost = 0;
-
                 cout << "Budget deleted successfully!" << endl;
             }
             else {
                 cout << "Delete cancelled." << endl;
             }
-
             break;
         }
-
-        // EXIT
         case 5:
-            cout << "Exiting program." << endl;
+            cout << "Terminating program." << endl;
             break;
-
         default:
             cout << "Please choose 1 to 5." << endl;
         }
-
     } while (choice != 5);
-
     return 0;
 }
